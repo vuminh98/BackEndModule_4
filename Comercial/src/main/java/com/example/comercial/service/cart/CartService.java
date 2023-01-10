@@ -128,7 +128,7 @@ public class CartService {
             Optional<Payment> payment = paymentRepository.findById(paymentId);
             if(payment.isPresent()){
                 for(HistoryBuy historyBuys : historyBuyRepository.findAllByPaymentId(payment.get().getId())){
-                    cartRepository.deleteCartByUserIdAndProductId(payment.get().getUser().getId(),historyBuys.getProduct().getId());
+                    cartRepository.deleteByUserIdAndProductId(payment.get().getUser().getId(),historyBuys.getProduct().getId());
                 }
                 payment.get().setStatus(true);
                 paymentRepository.save(payment.get());
