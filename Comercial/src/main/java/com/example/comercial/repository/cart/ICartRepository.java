@@ -19,8 +19,10 @@ public interface ICartRepository extends JpaRepository<Cart,Long> {
     @Transactional
     @Query(value="delete from cart a where a.user_id= :userId", nativeQuery = true)
     void deleteAllCartByUserId(@Param("userId") Long userId);
-
-    void deleteByUserIdAndProductId(Long userId, Long productId);
+//    @Modifying
+    @Transactional
+//    @Query(value="delete from cart a where a.user_id= :userId", nativeQuery = true)
+    void deleteByUserAndProduct(User userId, Product productId);
 
     Iterable<Cart> findAllByUserId(Long userId);
 }
