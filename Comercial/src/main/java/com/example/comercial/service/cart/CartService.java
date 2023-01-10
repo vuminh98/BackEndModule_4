@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -47,17 +48,21 @@ public class CartService {
         Product product = productRepository.findById(cart.getProduct().getId()).get();
         double discount = product.getPrice()*(1-(product.getDiscount().doubleValue()/100));
         try {
-            if  (cartUpdate.isPresent()) {
+            if(!Objects.equals(product.getStore().getUser().getId(), cart.getUser().getId())) {
+                if  (cartUpdate.isPresent()) {
                     cartUpdate.get().setQuantity(cartUpdate.get().getQuantity() + cart.getQuantity());
                     double total = discount*cartUpdate.get().getQuantity();
                     cartUpdate.get().setPrice(Math.ceil(total * 100) / 100);
                     cartRepository.save(cartUpdate.get());
-            }else{
-                double total = discount*cart.getQuantity();
-                cart.setPrice(Math.ceil(total * 100) / 100);
-                cartRepository.save(cart);
+                }else{
+                    double total = discount*cart.getQuantity();
+                    cart.setPrice(Math.ceil(total * 100) / 100);
+                    cartRepository.save(cart);
+                }
+                return true;
+            }else {
+                return false;
             }
-            return true;
         }catch (Exception e) {
             e.printStackTrace();
             return false;
