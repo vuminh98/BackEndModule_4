@@ -44,10 +44,10 @@ public class StoreController {
         return new ResponseEntity<>(storeService.findAllByNameStoreContaining(name, pageable), HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Optional<Store>> findStoreById(@PathVariable Long id) {
-//        return new ResponseEntity<>(storeService.findById(id), HttpStatus.OK);
-//    }
+    @GetMapping("/getIdStore/{id}")
+    public ResponseEntity<Optional<Store>> findStoreById(@PathVariable Long id) {
+        return new ResponseEntity<>(storeService.findById(id), HttpStatus.OK);
+    }
 
     @PostMapping("/createStore")
     public ResponseEntity<Store> createStore(@RequestBody Store store) {

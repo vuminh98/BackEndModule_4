@@ -1,6 +1,7 @@
 package com.example.comercial.repository.cart;
 
 import com.example.comercial.model.cart.Payment;
+import com.example.comercial.model.product.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,7 @@ public interface IPaymentRepository extends JpaRepository<Payment,Long> {
     @Transactional
     Optional<Payment> findByUserIdAndStoreIdAndStatus(Long userId, Long storeId,boolean status);
     Iterable<Payment> findAllByUserId(Long userId);
-    Iterable<Payment> findAllByDateCreatedAndStoreId(LocalDate dateCreated,Long id);
+    Iterable<Payment> findAllByDateCreatedAndStore(LocalDate dateCreated, Store store);
     Iterable<Payment> findAllByUserPhoneAndStoreId(String phone,Long storeId);
     Iterable<Payment> findAllByTotalPriceBetween(Double totalPrice, Double totalPrice2);
     Iterable<Payment> findAllByStoreIdAndUserId(Long storeId, Long userId);

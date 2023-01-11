@@ -79,6 +79,7 @@ public class StoreService implements IStoreService {
     }
     public Iterable<Payment> paymentsBySearch(String key, String value, String storeId){
         Iterable<Payment> payments = paymentRepository.findAllByStoreId(Long.parseLong(storeId));
+        Optional<Store> store = storeRepository.findById(Long.parseLong(storeId));
         switch (key) {
             case "phone":
                 Optional<User> user = userRepository.findByPhone(value);
@@ -90,7 +91,7 @@ public class StoreService implements IStoreService {
                 payments = paymentRepository.findAllByTotalPriceBetween(Double.parseDouble(value) - 50, Double.parseDouble(value) + 50);
                 break;
             case "dateCreated":
-                payments = paymentRepository.findAllByDateCreatedAndStoreId(LocalDate.parse(value), Long.parseLong(storeId));
+                payments = paymentRepository.findAllByDateCreatedAndStore(LocalDate.parse(value), store.get());
                 break;
         }
         return payments;
